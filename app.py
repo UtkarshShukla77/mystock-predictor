@@ -44,6 +44,9 @@ elif 'Datetime' in df.columns:
 if 'Close' in df.columns:
     df.rename(columns={'Close': 'y'}, inplace=True)
 
+# ✅ Remove timezone from ds (required by Prophet)
+df['ds'] = pd.to_datetime(df['ds']).dt.tz_localize(None)
+
 if not {'ds', 'y'}.issubset(df.columns):
     st.error(f"❌ Required columns 'ds' and 'y' are missing. Available columns: {list(df.columns)}")
     st.stop()
